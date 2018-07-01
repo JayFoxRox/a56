@@ -41,9 +41,7 @@ extern BOOL list_on;
 BOOL list_on_next = TRUE;
 char *alloc();
 
-main(argc,argv)
-int argc;
-char *argv[];
+int main(int argc, char *argv[])
 {
 	int i;
 	extern char *optarg;

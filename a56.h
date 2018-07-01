@@ -26,6 +26,8 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #ifndef TRUE
 #define TRUE 1
@@ -57,6 +59,8 @@ struct sym {
 } *find_sym();
 
 extern int pass;
+
+char *alloc(int size);
 
 #define NEW(object) ((object *)alloc(sizeof(object)))
 

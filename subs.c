@@ -26,6 +26,9 @@ static char *Copyright = "Copyright (C) 1990-1994 Quinn C. Jensen";
  *
  */
 
+#include <stdlib.h>
+#include <string.h>
+
 #include "a56.h"
 
 #define MAX 1024
@@ -68,7 +71,7 @@ char *file;
 	return fp;
 }
 
-fatal(c, a1, a2, a3, a4, a5, a6, a7, a8)
+void fatal(c, a1, a2, a3, a4, a5, a6, a7, a8)
 char *c, *a1, *a2, *a3, *a4, *a5, *a6, *a7, *a8;
 {
 	fprintf(stderr, c, a1, a2, a3, a4, a5, a6, a7, a8);
@@ -79,15 +82,12 @@ char *c, *a1, *a2, *a3, *a4, *a5, *a6, *a7, *a8;
 #define MAX_BUF 256
 
 char tabbuf[MAX_BUF], *untabn();
-char *untab(s)	/* expand tabs in s */
-register char *s;
+char *untab(char *s)	/* expand tabs in s */
 {
 	return untabn(s, TABS);
 }
 
-char *untabn(s, stops)	/* expand tabs in s */
-register char *s;
-register int stops;
+char *untabn(char *s, int stops)	/* expand tabs in s */
 {
 	char *o = s;
 
@@ -117,49 +117,11 @@ register int stops;
 	return o;
 }
 
-char *alloc(size)
-int size;
+char *alloc(int size)
 {
 	char *p = (char *)malloc(size);
 	if(NOT p)
 		fatal("alloc:  insufficient virtual memory to allocate %d bytes\n", 
 			size);
 	return p;
-}
-
-#define ascii2n(c)  \
-	((c) >= 'a' ? (c) - 'a' + 10 : ((c) >= 'A' ? (c) - 'A' + 10 : (c) - '0'))
-
-#define valid(c) ((c) >= '0' && (c) <= '9' || \
-	(c) >= 'A' && (c) <= 'Z' || \
-	(c) >= 'a' && (c) <= 'z')
-
-strtol(s, p, base)
-register char *s, **p;
-register int base;
-{
-	register long result = 0;
-	register int sign = 0;
-
-	while(*s == ' ' || *s == '\t')
-		s++;
-
-	if(*s == '-') {
-		s++;
-		sign++;
-	}
-
-	while(valid(*s)) {
-		register int dig = ascii2n(*s);
-		if(dig >= base)
-			break;
-		result *= base;
-		result += dig;
- 		s++;
-	}
-
-	if(p)
-		*p = s;
-
-	return sign ? -result : result;
 }

@@ -24,17 +24,13 @@ static	char	sccsfid[] = "@(#) getopt.c 5.0 (UTZoo) 1985";
 #define	ENDARGS  "--"
 
 /* this is included because index is not on some UNIX systems */
-static
-char *
-index (s, c)
-register	char	*s;
-register	int 	c;
-	{
+static char *index (char *s, int c)
+{
 	while (*s)
 		if (c == *s) return (s);
 		else s++;
 	return (NULL);
-	}
+}
 
 /*
  * get option letter from argument vector
@@ -46,16 +42,11 @@ char	*optarg;		/* argument associated with option */
 
 #define tell(s)	fputs(*nargv,stderr);fputs(s,stderr); \
 		fputc(optopt,stderr);fputc('\n',stderr);return(BADCH);
-
 
-getopt(nargc,nargv,ostr)
-int	nargc;
-char	**nargv,
-	*ostr;
+int getopt(int nargc,char	**nargv,char *ostr)
 {
 	static char	*place = EMSG;	/* option letter processing */
 	register char	*oli;		/* option letter list index */
-	char	*index();
 
 	if(!*place) {			/* update scanning pointer */
 		if(optind >= nargc || *(place = nargv[optind]) != '-' || !*++place) return(EOF);

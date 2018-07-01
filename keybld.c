@@ -18,15 +18,18 @@ static char *Copyright = "Copyright (C) 1990-1994 Quinn C. Jensen";
  */
 
 #include <stdio.h>
+
 #include "a56.h"
+
+void dump_machine();
 
 char buf[1024];
 
-main()
+int main()
 {
 	int line = 0;
 
-	while(gets(buf)) {
+	while(fgets(buf, sizeof(buf), stdin)) {
 		char *bp = buf;
 		line++;
 		while(*bp != '\t' && *bp != ' ') bp++;
@@ -69,8 +72,7 @@ struct user_action {
 } *utop = NULL, *ucur = NULL;
 int n_user_actions = 0;
 
-add_tok(tok, actions)
-char *tok, *actions;
+int add_tok(char *tok, char *actions)
 {
 	struct state *scur;
 	struct user_action *unew = (struct user_action *)alloc(sizeof *unew);
@@ -160,7 +162,7 @@ char *tp;
 	return snew;
 }
 
-dump_machine()
+void dump_machine()
 {
 	struct state *sp;
 	struct user_action *up;
@@ -197,8 +199,7 @@ dump_machine()
 
 	printf("\
 \n\
-kparse(kp)\n\
-char *kp;\n\
+int kparse(char* kp)\n\
 {\n\
 	int state = 0;\n\
 \n\
