@@ -151,6 +151,7 @@ struct n sym_ref();
 %token OP_CMP
 %token OP_CMPM
 %token OP_DIV
+%token OP_INC
 %token OP_MAC
 %token OP_MACR
 %token OP_MPY
@@ -729,6 +730,8 @@ arith_inst
 			{w0 |= 0x01D815 | $2 << 8 | $4 << 3;}
 	|	OP_DIV sd3
 			{w0 |= 0x018040 | $2 << 3;}
+	| OP_INC a_b
+			{w0 |= 0x000008 | $2;}
 	|	or_op ix ',' funky_ctl_reg
 			{w0 |= 0x0000F8 | (n2int($2) & 0xFF) << 8 | $4;}
 	|	and_op ix ',' funky_ctl_reg
